@@ -1,4 +1,4 @@
-require 'helper'
+require_relative './helper.rb'
 
 describe RackClicky do
   describe "Embedding clicky" do
@@ -57,6 +57,6 @@ describe RackClicky do
     options[:content_type] ||= "text/html"
     options[:body]         ||= [HTML]
     rack_app = lambda { |env| [200, { 'Content-Type' => options.delete(:content_type) }, options.delete(:body)] }
-    Rack::Clicky.new(rack_app, SITE_ID)
+    Rack::Clicky.new(rack_app, :tracker => SITE_ID, :async => false)
   end
 end
