@@ -2,6 +2,15 @@ require 'rake/clean'
 require 'rake/testtask'
 require 'fileutils'
 
+
+
+require 'yard'
+YARD::Rake::YardocTask.new do |t|
+  t.files   = ['lib/**/*.rb']
+  t.options = ['-odocs/'] # optional
+end
+
+
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
   test.pattern = 'test/**/test_*.rb'

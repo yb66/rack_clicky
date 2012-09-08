@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_development_dependency "minitest"
+  s.add_development_dependency "yard"
 
   s.add_dependency "rack"
 end
