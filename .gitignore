@@ -19,3 +19,9 @@ rdoc
 pkg
 
 ## PROJECT::SPECIFIC
+.rspec
+
+## BUNDLER ##
+bin/
+vendor/
+Gemfile.lock
