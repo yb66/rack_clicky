@@ -68,7 +68,6 @@ module Rack
     # @option [String] :tracker The tracking code. The app will fail if this is not supplied.
     # @option [true,false] :async Whether to use the asynchronous (default) or the synchronous script.
     def initialize( app, options={} )
-      warn "app.class #{app.class}"
       fail ArgumentError, "Tracker must be set!" if options[:tracker].nil? || options[:tracker].empty?
       @app, @options  = app, options
       self.class.tracker  ||= @options[:tracker]
