@@ -33,6 +33,6 @@ or if you're using Bundler:
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+### Copyright and Licence ###
 
 Copyright (c) 2010 Mark Turner. See LICENSE for details.
