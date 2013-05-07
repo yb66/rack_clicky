@@ -9,11 +9,11 @@ Rack Middleware to embed the Clicky (http://www.getclicky.com) tracking code.
 
 or if you're using Bundler:
 
-    gem "rack_clicky"
+    gem "rack_clicky", require: 'rack/clicky'
     
 ### Usage ###
 
-    require 'rack_clicky'
+    require 'rack/clicky'
 
     use Rack::Clicky, tracker: '000000'
     app = lambda { |env|
@@ -22,6 +22,7 @@ or if you're using Bundler:
     }
     run app
 
+There are more examples in the `examples` directory.
 
 ### Note on Patches/Pull Requests ###
  
