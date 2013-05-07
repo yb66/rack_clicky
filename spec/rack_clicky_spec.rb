@@ -3,7 +3,7 @@
 require 'spec_helper'
 require_relative "../lib/rack_clicky.rb"
 
-describe RackClicky do
+describe Rack::Clicky do
   describe "Embedding clicky" do
     include_context "Application"
     let(:async_script) { <<STR

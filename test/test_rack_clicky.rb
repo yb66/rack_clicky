@@ -1,6 +1,6 @@
 require_relative './helper.rb'
 
-describe RackClicky do
+describe Rack::Clicky do
   describe "Embedding clicky" do
     it "place the tracking code at the end of an HTML request" do
       assert_match EXPECTED_CODE, request.body
