@@ -35,13 +35,15 @@ module Example
       run lambda {|env|
         request = Rack::Request.new(env)
         response = if request.path == "/"
-          Rack::Response.new(["Please look at <a href='/html'>/html</a>, <a href='/xhtml'>/xhtml</a> and <a href='/xml'>/xml</a>"],200,{"Content-Type" => "text/html"})
+          Rack::Response.new(["<html><body><p>Please look at <a href='/html'>/html</a>, <a href='/xhtml'>/xhtml</a> and <a href='/xml'>/xml</a></p></body></html>"],200,{"Content-Type" => "text/html"})
         elsif request.path == "/html"
           Rack::Response.new([HTML],200,{"Content-Type" => "text/html"})
         elsif request.path == "/xhtml"
           Rack::Response.new([HTML],200,{"Content-Type" => "application/xhtml"})
         elsif request.path == "/xml"
           Rack::Response.new([XML],200,{"Content-Type" => "application/xml"})
+        else
+          Rack::Response.new "Not found", 404
         end
         response.finish
       }
