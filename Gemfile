@@ -16,3 +16,8 @@ group :documentation do
   gem "yard"
   gem "maruku"
 end
+
+group :examples do
+  gem 'sinatra'
+  gem 'haml'
+end
