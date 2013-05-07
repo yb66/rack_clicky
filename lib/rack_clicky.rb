@@ -16,7 +16,7 @@ module Rack
 
     SYNC_SCRIPT = <<-EOTC 
     <script src="//static.getclicky.com/js" type="text/javascript"></script>
-    <script type="text/javascript">clicky.init({{CODE}});</script>
+    <script type="text/javascript">try{ clicky.init({{CODE}}); }catch(e){}</script>
     <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/{{CODE}}ns.gif" /></p></noscript>
     EOTC
 
