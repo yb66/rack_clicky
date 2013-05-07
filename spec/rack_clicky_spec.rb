@@ -6,17 +6,32 @@ require_relative "../lib/rack/clicky.rb"
 describe Rack::Clicky do
   describe "Embedding clicky" do
     include_context "Application"
-    let(:async_script) { <<STR
-<script type=\"text/javascript\">\n      var clicky_site_ids = clicky_site_ids || [];\n      clicky_site_ids.push(000000);\n      (function() {\n        var s = document.createElement('script');\n        s.type = 'text/javascript';\n        s.async = true;\n        s.src = '//static.getclicky.com/js';\n        ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );\n      })();\n      </script>\n      <noscript><p><img alt=\"Clicky\" width=\"1\" height=\"1\" src=\"//in.getclicky.com/000000ns.gif\" /></p></noscript>\n\n</body>
-STR
-    }
-    let(:sync_script) { <<STR
-<script src="//static.getclicky.com/js" type="text/javascript"></script>
-    <script type="text/javascript">try{ clicky.init(000000); }catch(e){}</script>
-    <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/000000ns.gif" /></p></noscript>
+    let(:async_script) { s = <<STR
+<script type=\"text/javascript\">
+  var clicky_site_ids = clicky_site_ids || [];
+  clicky_site_ids.push(000000);
+  (function() {
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = '//static.getclicky.com/js';
+    ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
+  })();
+</script>
+<noscript><p><img alt=\"Clicky\" width=\"1\" height=\"1\" src=\"//in.getclicky.com/000000ns.gif\" /></p></noscript>
 
 </body>
 STR
+      s.strip!
+    }
+    let(:sync_script) { s= <<STR
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(000000); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/000000ns.gif" /></p></noscript>
+
+</body>
+STR
+      s.strip!
     }
 
     describe "Synchronous" do

@@ -17,27 +17,27 @@ module Rack
 
 
     # The script tags for the synchronous clicky script.
-    SYNC_SCRIPT = <<-EOTC 
-    <script src="//static.getclicky.com/js" type="text/javascript"></script>
-    <script type="text/javascript">try{ clicky.init({{CODE}}); }catch(e){}</script>
-    <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/{{CODE}}ns.gif" /></p></noscript>
-    EOTC
+    SYNC_SCRIPT = <<EOTC 
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init({{CODE}}); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/{{CODE}}ns.gif" /></p></noscript>
+EOTC
 
     # The script tags for the asynchronous clicky script.
-    ASYNC_SCRIPT = <<-STR
-      <script type="text/javascript">
-      var clicky_site_ids = clicky_site_ids || [];
-      clicky_site_ids.push({{CODE}});
-      (function() {
-        var s = document.createElement('script');
-        s.type = 'text/javascript';
-        s.async = true;
-        s.src = '//static.getclicky.com/js';
-        ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
-      })();
-      </script>
-      <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/{{CODE}}ns.gif" /></p></noscript>
-    STR
+    ASYNC_SCRIPT = <<STR
+<script type="text/javascript">
+  var clicky_site_ids = clicky_site_ids || [];
+  clicky_site_ids.push({{CODE}});
+  (function() {
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = '//static.getclicky.com/js';
+    ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
+  })();
+</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/{{CODE}}ns.gif" /></p></noscript>
+STR
 
     # @param [String] tracker The tracking code.
     def self.tracker=( tracker )
@@ -139,7 +139,7 @@ module Rack
     # @return [Array]
     def inject_script( response, body="" )
       response.each { |s| body << s.to_s }
-      [body.gsub(/<\/body>/, "#{self.class.script}\n</body>")]
+      [ body.sub( %r{</body>}, "#{self.class.script}\n</body>") ]
     end
 
   end
