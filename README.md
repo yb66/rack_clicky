@@ -16,7 +16,10 @@ or if you're using Bundler:
     require 'rack_clicky'
 
     use Rack::Clicky, tracker: '000000'
-    app = lambda { |env| [200, { 'Content-Type' => 'text/html' }, '<html><body><p>Awesome Body</p></body></html>'] }
+    app = lambda { |env|
+      output = '<html><body><p>Awesome Body</p></body></html>'
+      [200, { 'Content-Type' => 'text/html' }, output] 
+    }
     run app
 
 
