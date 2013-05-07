@@ -72,8 +72,8 @@ STR
     # The values given as options are cached.
     # @param [Proc] app
     # @param [Hash] options
-    # @option [String] :tracker The tracking code. The app will fail if this is not supplied.
-    # @option [true,false] :async Whether to use the asynchronous (default) or the synchronous script.
+    # @option options [String] :tracker The tracking code. The app will fail if this is not supplied.
+    # @option options [true,false] :async Whether to use the asynchronous (default) or the synchronous script.
     # @example
     #   use Rack::Clicky, tracker: "000000" # async is the default
     #
@@ -111,6 +111,8 @@ STR
     private
 
 
+    # If it's xHTML or HTML, then inject the scripts.
+    # Anything else, it ignores it.
     # @param [Integer] status
     # @param [Hash] headers
     # @return [true,false]
