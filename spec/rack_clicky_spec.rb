@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 require 'spec_helper'
-require_relative "../lib/rack_clicky.rb"
+require_relative "../lib/rack/clicky.rb"
 
 describe Rack::Clicky do
   describe "Embedding clicky" do

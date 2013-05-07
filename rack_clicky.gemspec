@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "rack_clicky/version"
+require "rack/clicky/version"
 
 Gem::Specification.new do |s|
   s.name        = "rack_clicky"

@@ -1,5 +1,3 @@
-require "rack_clicky/version"
-
 # @see http://rack.rubyforge.org/doc/SPEC.html
 module Rack
 
