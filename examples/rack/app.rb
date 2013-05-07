@@ -1,3 +1,5 @@
+require 'rack/clicky'
+
 module Example
   HTML = <<-EOHTML
   <html>
@@ -22,20 +24,27 @@ module Example
   TRACKER = "000000"
 
   def self.app( async=false )
-    app = Rack::Builder.app do
+    Rack::Builder.app do
+      # the :async => async option is there to make it easier to
+      # test, but if you leave that option entirely off
+      # you'll get the async script by default.
       use Rack::Clicky, :tracker => TRACKER, :async => async
-      x = lambda { |e|
-        request = Rack::Request.new(e)
-        response = if request.path == "/html"
-          Rack::Response.new([HTML],200,{"Content-Type" => "text/html"}).finish
+
+      # Here, there are 3 paths, each to try a different
+      # flavour of output.
+      run lambda {|env|
+        request = Rack::Request.new(env)
+        response = if request.path == "/"
+          Rack::Response.new(["Please look at <a href='/html'>/html</a>, <a href='/xhtml'>/xhtml</a> and <a href='/xml'>/xml</a>"],200,{"Content-Type" => "text/html"})
+        elsif request.path == "/html"
+          Rack::Response.new([HTML],200,{"Content-Type" => "text/html"})
         elsif request.path == "/xhtml"
-          Rack::Response.new([HTML],200,{"Content-Type" => "application/xhtml"}).finish
+          Rack::Response.new([HTML],200,{"Content-Type" => "application/xhtml"})
         elsif request.path == "/xml"
-          Rack::Response.new([XML],200,{"Content-Type" => "application/xml"}).finish
+          Rack::Response.new([XML],200,{"Content-Type" => "application/xml"})
         end
-        response
+        response.finish
       }
-      run x
     end
   end # def app
 end
