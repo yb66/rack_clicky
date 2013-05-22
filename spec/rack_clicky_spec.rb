@@ -6,6 +6,10 @@ require_relative "../lib/rack/clicky.rb"
 describe Rack::Clicky do
   describe "Embedding clicky" do
     include_context "Application"
+    let(:link) { <<STR
+<a title="Real Time Web Analytics" href="http://clicky.com/000000"><img alt="Real Time Web Analytics" src="//static.getclicky.com/media/links/badge.gif" border="0" /></a>
+STR
+    }
     let(:async_script) { s = <<STR
 <script type=\"text/javascript\">
   var clicky_site_ids = clicky_site_ids || [];
@@ -40,7 +44,7 @@ STR
       end
       context "Given a false regarding async" do
         include_context "Synchronous"
-        let(:script) { sync_script }
+        let(:script) { "#{link}#{sync_script}" }
         context "a 200 status and html served" do
           before{ get "/html", {},{"HTTP_ACCEPT" => "text/html" } }
           it_should_behave_like "Any route"
@@ -81,7 +85,7 @@ STR
       end
       context "Given a true regarding async" do
         include_context "Asynchronous"
-        let(:script) { async_script }
+        let(:script) { "#{link}#{async_script}" }
         context "a 200 status and html served" do
           describe "async setting" do
             subject { app.class.async }      
@@ -116,6 +120,20 @@ STR
       end
     end
 
+    describe "Without link" do
+      before :all do
+        Example.app.class.clear_caches
+      end
+      include_context "Without link"
+      let(:script) { async_script }
+      context "a 200 status and html served" do
+        before{ get "/html", {},{"HTTP_ACCEPT" => "text/html" } }
+        it_should_behave_like "Any route"
+        subject { last_response.body }
+        it { should include script }
+        it { should_not include link }
+      end  
+    end
   end
 
 end

@@ -6,15 +6,26 @@ module Rack
 
     # Produces the script.
     # This also caches the script, as unless the tracking code
-    # and/or the async settings change, the script will remain
+    # and/or the async/link settings change, the script will remain
     # the same.
     def self.script
-      @script ||= ( @async ? 
-                    ASYNC_SCRIPT : 
-                    SYNC_SCRIPT 
-                  ).gsub!(/\{\{CODE\}\}/, @tracker)
+      @script ||=
+        (
+          (@with_link ? 
+            CLICKY_LINK :
+            ""
+          ) +
+          ( @async ? 
+            ASYNC_SCRIPT : 
+            SYNC_SCRIPT 
+          )
+        ).gsub!(/\{\{CODE\}\}/, @tracker)
     end
 
+
+    CLICKY_LINK = <<STR
+<a title="Real Time Web Analytics" href="http://clicky.com/{{CODE}}"><img alt="Real Time Web Analytics" src="//static.getclicky.com/media/links/badge.gif" border="0" /></a>
+STR
 
     # The script tags for the synchronous clicky script.
     SYNC_SCRIPT = <<EOTC 
@@ -39,6 +50,7 @@ EOTC
 <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/{{CODE}}ns.gif" /></p></noscript>
 STR
 
+
     # @param [String] tracker The tracking code.
     def self.tracker=( tracker )
       @tracker = tracker
@@ -49,7 +61,8 @@ STR
       @tracker
     end
 
-    # @param [true,false] async True to use the asynchronous script, false for the synchronous script via CDN. Defaults to true (via the constructor).
+
+    # @param [true,false] async True to use the asynchronous script, false for the synchronous script via CDN. Defaults to true (via the app's constructor).
     def self.async=( async )
       @async = async
     end
@@ -57,6 +70,16 @@ STR
     # @return [true,false]
     def self.async
       @async
+    end
+
+
+    # @param [true,false] async True to show the link to clicky.com. Defaults to true (via the app's constructor).
+    def self.with_link=( link )
+      @with_link = link
+    end
+
+    def self.with_link?
+      @with_link
     end
 
 
@@ -74,16 +97,19 @@ STR
     # @param [Hash] options
     # @option options [String] :tracker The tracking code. The app will fail if this is not supplied.
     # @option options [true,false] :async Whether to use the asynchronous (default) or the synchronous script.
+    # @option options [true,false] :link Whether to add the link to clicky.com or not. Default is true.
     # @example
-    #   use Rack::Clicky, tracker: "000000" # async is the default
+    #   use Rack::Clicky, tracker: "000000"
+    #   async with the link is the default
     #
-    #   # for synchronous script
-    #   use Rack::Clicky, tracker: "000000", async: false
+    #   # for synchronous script without link
+    #   use Rack::Clicky, tracker: "000000", async: false, link: false
     def initialize( app, options={} )
       fail ArgumentError, "Tracker must be set!" if options[:tracker].nil? || options[:tracker].empty?
       @app, @options  = app, options
       self.class.tracker  ||= @options[:tracker]
       self.class.async = @options.fetch(:async, true)
+      self.class.with_link = @options.fetch(:link, true)
     end
 
 

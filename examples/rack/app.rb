@@ -23,12 +23,12 @@ module Example
 
   TRACKER = "000000"
 
-  def self.app( async=false )
+  def self.app( async=false, link=true )
     Rack::Builder.app do
       # the :async => async option is there to make it easier to
       # test, but if you leave that option entirely off
       # you'll get the async script by default.
-      use Rack::Clicky, :tracker => TRACKER, :async => async
+      use Rack::Clicky, :tracker => TRACKER, :async => async, :link => link
 
       # Here, there are 3 paths, each to try a different
       # flavour of output.
