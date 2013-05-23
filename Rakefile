@@ -23,10 +23,10 @@ task :default => :test
 
 def package_version
   @package_version ||= begin
-    unless defined? RackClicky::Version
+    unless defined? Rack::Clicky::Version
       load './lib/rack_clicky/version.rb'
     end
-    RackClicky::VERSION
+    Rack::Clicky::VERSION
   end
 end
 

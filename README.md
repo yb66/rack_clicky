@@ -1,19 +1,30 @@
-= Rack::Clicky
+## Rack::Clicky ##
 
 Rack Middleware to embed the Clicky (http://www.getclicky.com) tracking code.
 
-== Usage
-	gem install rack_clicky
-	require 'rack_clicky'
-	use Rack::Clicky, '000000'
-	app = lambda { |env| [200, { 'Content-Type' => 'text/html' }, '<html><body><p>Awesome Body</p></body></html>'] }
-	run app
-	
-== TODO
-* It probably wouldn't hurt to have more tests. 
-* Add support for embedding the asynchronous tracking code.
 
-== Note on Patches/Pull Requests
+### Installation.
+
+    gem install rack_clicky
+
+or if you're using Bundler:
+
+    gem "rack_clicky", require: 'rack/clicky'
+    
+### Usage ###
+
+    require 'rack/clicky'
+
+    use Rack::Clicky, tracker: '000000'
+    app = lambda { |env|
+      output = '<html><body><p>Awesome Body</p></body></html>'
+      [200, { 'Content-Type' => 'text/html' }, output] 
+    }
+    run app
+
+There are more examples in the `examples` directory.
+
+### Note on Patches/Pull Requests ###
  
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -23,6 +34,6 @@ Rack Middleware to embed the Clicky (http://www.getclicky.com) tracking code.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+### Copyright and Licence ###
 
 Copyright (c) 2010 Mark Turner. See LICENSE for details.
