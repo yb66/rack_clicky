@@ -156,8 +156,14 @@ STR
     # @param [Rack::Response] response
     # @return [Integer]
     def calc_content_length( headers, response )
-      length = response.to_ary.inject(0) { |len, part| 
-        len + Rack::Utils.bytesize(part) 
+      length = response.to_ary.inject(0) { |len, part|
+        if part.respond_to? :bytesize
+          len + part.bytesize
+        elsif Rack::Utils.respond_to? :bytesize
+          len + Rack::Utils.bytesize()
+        else
+          fail "There has to be an available `bytesize` method for this to work!"
+        end
       }
     end
 
